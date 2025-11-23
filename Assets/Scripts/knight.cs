@@ -14,14 +14,8 @@ public class knight : MonoBehaviour
     {
         if (spawnButton != null)
         {
-            spawnButton.onClick.AddListener(SpawnKnight);
+            spawnButton.onClick.AddListener(SpawnItem);
         }
-    }
-
-    void SpawnKnight()
-    {
-        Vector3 randomPosition = spawnPosition.position + Random.insideUnitSphere * spawnRadius;
-        Instantiate(knightPrefab, randomPosition, Quaternion.identity);
     }
 
     void SpawnItem()
