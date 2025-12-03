@@ -4,9 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - HOUSES
-  - ENEMY
-  - HOUSE
+  - enemy
+  - farmer
   - warrior
   layers:
   - Default

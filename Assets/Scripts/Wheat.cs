@@ -1,83 +1,57 @@
-using UnityEngine;
 using System.Collections;
 using TMPro;
-using UnityEngine.UI;
-
+using UnityEngine;
 public class Wheat : MonoBehaviour
 {
-    public static Wheat instance;
-    public TMP_Text textField;
-    public int totalWheatCollected = 0;
-    public float collectionInterval = 10f;
-    public int baseResourceAmountPerCollection = 10;
-    public Button button5Wheat;
-    public Button button10Wheat;
+    public TMP_Text wheatText;
+    public UnitSpawner unitSpawner;
 
-    void Awake()
-    {
-        instance = this;
-    }
+    private int currentWheat = 0;
+    private float productionTimer = 0f;
+    private const float updateInterval = 1f;
+    private int baseProductionRate = 2;
+    private const int maxWheatLimit = 20;
+
+    public int CurrentWheat => currentWheat;
 
     void Start()
     {
-        StartCoroutine(CollectResources());
-    }
-
-    IEnumerator CollectResources()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(collectionInterval);
-            GiveResource();
-        }
-    }
-
-    void GiveResource()
-    {
-        int warriorCount = GameObject.FindGameObjectsWithTag("warrior").Length;
-        int resourceAmount = baseResourceAmountPerCollection - warriorCount;
-
-        if (resourceAmount > 0)
-        {
-            Debug.Log($"Выдана пшеница: {resourceAmount}");
-            AddWheat(resourceAmount);
-        }
-        else
-        {
-            Debug.Log("Количество пшеницы не может быть отрицательным.");
-        }
-    }
-
-    public void AddWheat(int amount)
-    {
-        totalWheatCollected += amount;
         UpdateText();
-        UpdateButtons();
+    }
+
+    public bool CanSpend(int amount)
+    {
+        return currentWheat >= amount;
+    }
+
+    public void SpendWheat(int amount)
+    {
+        if (CanSpend(amount))
+        {
+            currentWheat -= amount;
+            UpdateText();
+        }
     }
 
     private void UpdateText()
     {
-        textField.text = $"Кол-во пшеницы: {totalWheatCollected}";
+        wheatText.text = $"�������: {currentWheat}";
     }
 
-    private void UpdateButtons()
+    void Update()
     {
-        if (totalWheatCollected >= 5)
-        {
-            button5Wheat.interactable = true;
-        }
-        else
-        {
-            button5Wheat.interactable = false;
-        }
+        productionTimer += Time.deltaTime;
 
-        if (totalWheatCollected >= 10)
+        if (productionTimer >= updateInterval)
         {
-            button10Wheat.interactable = true;
-        }
-        else
-        {
-            button10Wheat.interactable = false;
+            productionTimer -= updateInterval;
+            int totalProductionRate = (int)(baseProductionRate + (unitSpawner.FarmersCount * 0.5f));
+            if (currentWheat + totalProductionRate <= maxWheatLimit)
+                currentWheat += Mathf.RoundToInt(totalProductionRate);
+            else
+                currentWheat = maxWheatLimit; 
+
+            UpdateText();
         }
     }
 }
