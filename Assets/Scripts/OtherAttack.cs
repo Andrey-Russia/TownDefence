@@ -3,7 +3,7 @@ using UnityEngine;
 public class OtherAttack : MonoBehaviour
 {
     public float moveSpeed = 3f;                   
-    public float detectionRadius = 10f;              
+    public float detectionRadius = 100f;              
     public float attackRange = 2f;                  
     public float damage = 10f;                     
     public float health = 100f;                      
@@ -16,6 +16,11 @@ public class OtherAttack : MonoBehaviour
         DetectTargetsWithTags(new[] { "warrior", "farmer" }); 
         ChaseTarget();                              
         PerformAttack();                            
+    }
+
+    private void OnDrawGizmos()
+    {
+        
     }
 
     private void DetectTargetsWithTags(string[] tags)

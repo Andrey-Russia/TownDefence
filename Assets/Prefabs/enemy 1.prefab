@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  detectionRadius: 10
+  detectionRadius: 1000
   attackRange: 2
   damage: 100
   health: 100

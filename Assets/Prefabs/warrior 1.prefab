@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 505472133775037396}
   m_Layer: 0
   m_Name: Pizza_Dead
-  m_TagString: Untagged
+  m_TagString: warrior
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  detectionRadius: 10
+  detectionRadius: 1000
   attackRange: 2
   damage: 10
   health: 100
