@@ -3061,7 +3061,7 @@ MonoBehaviour:
   timerText: {fileID: 101776477}
   victoryPanel: {fileID: 1120778849}
   enemiesPerWave: 1
-  wavesToWin: 1
+  wavesToWin: 2
 --- !u!1 &702639934
 GameObject:
   m_ObjectHideFlags: 0
