@@ -3,50 +3,43 @@ using UnityEngine.UI;
 
 public class UnitSpawner : MonoBehaviour
 {
-    public Button farmerButton;
-    public Button warriorButton;
-    public Transform[] spawnPoints;
-    public GameObject farmerPrefab;
-    public GameObject warriorPrefab;
+    public Button FarmerButton;
+    public Button WarriorButton;
+    public Transform[] SpawnPoints;
+    public GameObject FarmerPrefab;
+    public GameObject WarriorPrefab;
 
-    private int maxFarmers = 5;
-    private int maxWarriors = 10;
-    private int farmersCount = 0;
-    private int warriorsCount = 0;
+    private int _maxFarmers = 5;
+    private int _maxWarriors = 10;
+    private int _farmersCount = 0;
+    private int _warriorsCount = 0;
+    private Wheat _wheatManager;
 
-    private Wheat wheatManager;
-
-    private int totalWarriorConsumption = 0;
-
-    public int FarmersCount => farmersCount;
+    public int FarmersCount => _farmersCount;
 
     void Start()
     {
-        wheatManager = FindObjectOfType<Wheat>();
+        _wheatManager = FindObjectOfType<Wheat>();
 
-        farmerButton.onClick.AddListener(() =>
+        FarmerButton.onClick.AddListener(() =>
         {
-            TrySpawnUnit(farmerPrefab, ref farmersCount, maxFarmers, 5);
+            TrySpawnUnit(FarmerPrefab, ref _farmersCount, _maxFarmers, 5);
         });
 
-        warriorButton.onClick.AddListener(() =>
+        WarriorButton.onClick.AddListener(() =>
         {
-            TrySpawnUnit(warriorPrefab, ref warriorsCount, maxWarriors, 10);
+            TrySpawnUnit(WarriorPrefab, ref _warriorsCount, _maxWarriors, 10);
         });
     }
 
     private void TrySpawnUnit(GameObject prefab, ref int count, int limit, int cost)
     {
-        if (count < limit && wheatManager.CanSpend(cost))
+        if (count < limit && _wheatManager.CanSpend(cost))
         {
             Vector3 spawnPosition = GetNearbySpawnPoint();
-            var unitInstance = Instantiate(prefab, spawnPosition, Quaternion.identity);
-
-            if (prefab.CompareTag("warrior"))
-                totalWarriorConsumption += 1;
-
+            Instantiate(prefab, spawnPosition, Quaternion.identity);
             count++;
-            wheatManager.SpendWheat(cost);
+            _wheatManager.SpendWheat(cost);
         }
         else
         {
@@ -56,10 +49,10 @@ public class UnitSpawner : MonoBehaviour
 
     private Vector3 GetNearbySpawnPoint()
     {
-        if (spawnPoints.Length > 0)
+        if (SpawnPoints.Length > 0)
         {
-            int index = Random.Range(0, spawnPoints.Length);
-            Transform chosenPoint = spawnPoints[index];
+            int index = Random.Range(0, SpawnPoints.Length);
+            Transform chosenPoint = SpawnPoints[index];
             float offsetX = Random.Range(-2f, 2f);
             float offsetY = Random.Range(-2f, 2f);
 
@@ -72,21 +65,14 @@ public class UnitSpawner : MonoBehaviour
         }
     }
 
-    private void OnDestroyUnit(GameObject destroyedUnit)
-    {
-        if (destroyedUnit.CompareTag("warrior"))
-            totalWarriorConsumption -= 1;
-    }
-
     private void BlockButtonsIfNeeded()
     {
-        farmerButton.interactable = farmersCount < maxFarmers && wheatManager.CurrentWheat >= 5;
-        warriorButton.interactable = warriorsCount < maxWarriors && wheatManager.CurrentWheat >= 10;
+        FarmerButton.interactable = _farmersCount < _maxFarmers && _wheatManager.CurrentWheat >= 5;
+        WarriorButton.interactable = _warriorsCount < _maxWarriors && _wheatManager.CurrentWheat >= 10;
     }
 
     void Update()
     {
         BlockButtonsIfNeeded();
-        wheatManager.SpendWheat(totalWarriorConsumption);
     }
 }

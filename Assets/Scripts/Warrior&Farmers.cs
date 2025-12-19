@@ -3,13 +3,13 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     public float moveSpeed = 3f;                    
-    public float detectionRadius = 10f;             
+    public float detectionRadius = 1000f;             
     public float attackRange = 2f;                   
-    public float damage = 10f;                      
+    public float damage = 50f;                      
     public float health = 100f;                      
 
-    private Transform target;                       
-    private bool attacking = false;                 
+    private Transform _target;                       
+    private bool _attacking = false;                 
 
     void Update()
     {
@@ -25,7 +25,7 @@ public class Stats : MonoBehaviour
         {
             if (collider.CompareTag(tag))
             {
-                target = collider.transform;         
+                _target = collider.transform;         
                 break;
             }
         }
@@ -33,23 +33,23 @@ public class Stats : MonoBehaviour
 
     private void ChaseTarget()
     {
-        if (target != null && !attacking)
+        if (_target != null && !_attacking)
         {
-            Vector2 direction = (Vector2)target.position - (Vector2)transform.position;
+            Vector2 direction = (Vector2)_target.position - (Vector2)transform.position;
             transform.Translate(direction.normalized * moveSpeed * Time.deltaTime); 
         }
     }
 
     private void PerformAttack()
     {
-        if (target != null && Vector2.Distance(transform.position, target.position) <= attackRange)
+        if (_target != null && Vector2.Distance(transform.position, _target.position) <= attackRange)
         {
-            attacking = true;
-            target.SendMessageUpwards("TakeDamage", damage); 
+            _attacking = true;
+            _target.SendMessageUpwards("TakeDamage", damage); 
         }
         else
         {
-            attacking = false;
+            _attacking = false;
         }
     }
 
@@ -63,9 +63,7 @@ public class Stats : MonoBehaviour
     }
 
     private void Die()
-    {
-        Debug.Log(name + " умер.");                 
+    {                
         Destroy(gameObject);                       
     }
 }
-

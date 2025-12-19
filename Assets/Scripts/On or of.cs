@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class TogglePanel : MonoBehaviour
 {
-    public GameObject panel;
+    public GameObject Panel;
 
     void Start()
     {
-        panel.SetActive(false);
+        Panel.SetActive(false);
     }
 
     public void OpenPanel()
     {
-        panel.SetActive(true);
+        Panel.SetActive(true);
     }
 
     public void ClosePanel()
     {
-        panel.SetActive(false);
+        Panel.SetActive(false);
     }
 }

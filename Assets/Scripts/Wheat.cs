@@ -1,18 +1,19 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+
 public class Wheat : MonoBehaviour
 {
-    public TMP_Text wheatText;
-    public UnitSpawner unitSpawner;
+    public TMP_Text WheatText;
+    public UnitSpawner UnitSpawner;
 
-    private int currentWheat = 0;
-    private float productionTimer = 0f;
-    private const float updateInterval = 1f;
-    private int baseProductionRate = 2;
-    private const int maxWheatLimit = 20;
+    private int _currentWheat = 0;
+    private float _productionTimer = 0f;
+    private const float _updateInterval = 1f;
+    private int _baseProductionRate = 2;
+    private const int _maxWheatLimit = 20;
 
-    public int CurrentWheat => currentWheat;
+    public int CurrentWheat => _currentWheat;
 
     void Start()
     {
@@ -21,35 +22,35 @@ public class Wheat : MonoBehaviour
 
     public bool CanSpend(int amount)
     {
-        return currentWheat >= amount;
+        return _currentWheat >= amount;
     }
 
     public void SpendWheat(int amount)
     {
         if (CanSpend(amount))
         {
-            currentWheat -= amount;
+            _currentWheat -= amount;
             UpdateText();
         }
     }
 
     private void UpdateText()
     {
-        wheatText.text = $"ѕшеница: {currentWheat}";
+        WheatText.text = $"ѕшеница: {_currentWheat}";
     }
 
     void Update()
     {
-        productionTimer += Time.deltaTime;
+        _productionTimer += Time.deltaTime;
 
-        if (productionTimer >= updateInterval)
+        if (_productionTimer >= _updateInterval)
         {
-            productionTimer -= updateInterval;
-            int totalProductionRate = (int)(baseProductionRate + (unitSpawner.FarmersCount * 0.5f));
-            if (currentWheat + totalProductionRate <= maxWheatLimit)
-                currentWheat += Mathf.RoundToInt(totalProductionRate);
+            _productionTimer -= _updateInterval;
+            int totalProductionRate = (int)(_baseProductionRate + (UnitSpawner.FarmersCount * 1f));
+            if (_currentWheat + totalProductionRate <= _maxWheatLimit)
+                _currentWheat += Mathf.RoundToInt(totalProductionRate);
             else
-                currentWheat = maxWheatLimit; 
+                _currentWheat = _maxWheatLimit;
 
             UpdateText();
         }

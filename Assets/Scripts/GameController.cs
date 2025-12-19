@@ -3,55 +3,54 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public Transform spawnPoint;
-    public TMP_Text timerText;
-    public GameObject victoryPanel;
-    public int enemiesPerWave = 5;
-    public int wavesToWin = 5;
+    public GameObject EnemyPrefab;
+    public Transform SpawnPoint;
+    public TMP_Text TimerText;
+    public GameObject VictoryPanel;
+    public GameObject GameOverPanel;
+    public int EnemiesToDestroy = 2;
 
-    private float timeRemaining = 30f;
-    private int completedWaves = 0;
-    private bool gameInProgress = true;
+    private float _timeRemaining = 5f;
+    private int _destroyedEnemies = 0;
+    private bool _gameInProgress = true;
 
     void Start()
     {
-        victoryPanel.SetActive(false);
+        VictoryPanel.SetActive(false);
+        GameOverPanel.SetActive(false);
     }
 
     void Update()
     {
-        if (gameInProgress)
+        if (_gameInProgress)
         {
-            timeRemaining -= Time.deltaTime;
-            if (timeRemaining <= 0f)
+            _timeRemaining -= Time.deltaTime;
+
+            if (_timeRemaining <= 0f)
             {
                 SpawnWave();
-                timeRemaining = 30f;
+                _timeRemaining = 30f;
             }
 
-            string minutes = ((int)(timeRemaining / 60)).ToString("00");
-            string seconds = ((int)(timeRemaining % 60)).ToString("00");
-            timerText.text = $"{minutes}:{seconds}";
+            string minutes = ((int)(_timeRemaining / 60)).ToString("00");
+            string seconds = ((int)(_timeRemaining % 60)).ToString("00");
+            TimerText.text = $"{minutes}:{seconds}";
+        }
+    }
+
+    internal void OnEnemyDestroyed(GameObject enemy)
+    {
+        _destroyedEnemies++;
+
+        if (_destroyedEnemies >= EnemiesToDestroy)
+        {
+            _gameInProgress = false;
+            VictoryPanel.SetActive(true);
         }
     }
 
     private void SpawnWave()
     {
-        for (int i = 0; i < enemiesPerWave; i++)
-        {
-            Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-        }
-        completedWaves++;
-        CheckForVictory();
-    }
-
-    private void CheckForVictory()
-    {
-        if (completedWaves >= wavesToWin)
-        {
-            gameInProgress = false;
-            victoryPanel.SetActive(true);
-        }
+        Instantiate(EnemyPrefab, SpawnPoint.position, Quaternion.identity); 
     }
 }

@@ -147,10 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd7bfe26e549c14aa8b18960e42af05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 10
   detectionRadius: 1000
   attackRange: 2
-  damage: 10
+  damage: 50
   health: 100
 --- !u!1 &8616733114733550105
 GameObject:

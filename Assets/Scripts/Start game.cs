@@ -4,14 +4,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class Panel : MonoBehaviour
 {
-    public Image fadePanel;
-    private float fadeDuration = 2f;
+    public Image FadePanel;
+    private float _fadeDuration = 2f;
 
 
     void Start()
     {
-        if (fadePanel != null)
-        fadePanel.color = Color.clear;
+        if (FadePanel != null)
+        FadePanel.color = Color.clear;
     }
 
     public void LoadNextScene(string sceneName)
@@ -22,11 +22,11 @@ public class Panel : MonoBehaviour
     IEnumerator FadeToBlack(string nextScene)
     {
         float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
+        while (elapsedTime < _fadeDuration)
         {
-            float panelalpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            float panelalpha = Mathf.Lerp(0, 1, elapsedTime / _fadeDuration);
 
-            fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, panelalpha);
+            FadePanel.color = new Color(FadePanel.color.r, FadePanel.color.g, FadePanel.color.b, panelalpha);
             yield return null;
             elapsedTime += Time.deltaTime;
         }
