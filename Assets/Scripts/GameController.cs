@@ -7,7 +7,6 @@ public class GameController : MonoBehaviour
     public Transform SpawnPoint;
     public TMP_Text TimerText;
     public GameObject VictoryPanel;
-    public GameObject GameOverPanel;
     public int EnemiesToDestroy = 2;
 
     private float _timeRemaining = 5f;
@@ -17,7 +16,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         VictoryPanel.SetActive(false);
-        GameOverPanel.SetActive(false);
     }
 
     void Update()
